@@ -18,7 +18,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <!--使用以下命令统一修改版本号
+    <!--使用以下命令统一修改版mvn
     mvn versions:set -DnewVersion=1.1.1-SNAPSHOT
     mvn versions:set -DnewVersion=1.1.1-RELEASE
     -->
@@ -29,7 +29,7 @@
 
     <groupId>cn.y3h2.blog</groupId>
     <artifactId>user</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.8-SNAPSHOT</version>
     <name>User Center</name>
     <description>3y2h blog system user center</description>
 
