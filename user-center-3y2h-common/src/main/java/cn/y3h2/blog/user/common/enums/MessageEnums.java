@@ -4,10 +4,7 @@ import lombok.Getter;
 
 import java.util.Objects;
 
-/**
- * @Author <a href="liyongfei@cai-inc.com">泠墨</a>
- * @Date 2018/4/24 上午11:05 Copyright (c) 2016 政采云有限公司
- */
+
 public enum MessageEnums {
 
   RPC_ERROR("-1", "服务不可用！"),

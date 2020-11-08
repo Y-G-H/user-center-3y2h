@@ -10,6 +10,12 @@ import java.util.Objects;
 
 @Data
 @ToString
+/**
+* @ClassName Response
+* @Author kongming
+* @Date 2020/11/8 5:26 下午
+* @Description dubbo接口统一返回结构
+*/
 public class Response<T> implements Serializable {
 
   private String code;
