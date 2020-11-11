@@ -1,6 +1,6 @@
 package cn.y3h2.blog.user.web;
 
-import cn.y3h2.blog.user.api.domain.FindUserCondition;
+import cn.y3h2.blog.user.api.domain.req.FindUserCondition;
 import cn.y3h2.blog.user.core.domain.UsrUserDO;
 import cn.y3h2.blog.user.core.manager.UsrUserManager;
 import org.junit.Test;

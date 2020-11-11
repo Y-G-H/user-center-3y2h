@@ -26,6 +26,12 @@
         </dependency>
 
         <dependency>
+            <groupId>cn.y3h2.blog.user</groupId>
+            <artifactId>api</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>

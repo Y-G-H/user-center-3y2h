@@ -11,10 +11,8 @@
         http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <dubbo:service version="1.0.0" interface="cn.y3h2.blog.user.api.TestFacade"
-                   ref="testService" retries="0" timeout="5000"/>
+    <dubbo:service version="1.0.0" interface="cn.y3h2.blog.user.api.UserFacade"
+                   ref="userService" retries="0" timeout="5000"/>
 
-    <dubbo:service version="1.0.0" interface="cn.y3h2.blog.user.api.Test2Facade"
-                   ref="test2Service" retries="0" timeout="5000"/>
 
 </beans>
