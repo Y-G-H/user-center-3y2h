@@ -1,6 +1,8 @@
-package cn.y3h2.blog.user.api.domain.rsp;
+package cn.y3h2.blog.user.common.dto;
 
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @ClassName UserInfoDTO
@@ -9,8 +11,9 @@ import lombok.Data;
  * @Description 用户信息dto
  */
 @Data
-public class UserInfoDTO {
+public class UserInfoDTO implements Serializable {
 
+    private static final long serialVersionUID = -7617685459735885171L;
     /**
      * 用户id
      */
@@ -34,6 +37,6 @@ public class UserInfoDTO {
     /**
      * 账户状态
      */
-    private String state;
+    private Integer state;
 
 }

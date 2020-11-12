@@ -1,7 +1,7 @@
 package cn.y3h2.blog.user.api;
 
 import cn.y3h2.blog.user.api.domain.req.FindUserCondition;
-import cn.y3h2.blog.user.api.domain.rsp.UserInfoDTO;
+import cn.y3h2.blog.user.common.dto.UserInfoDTO;
 import cn.y3h2.blog.user.common.model.Response;
 
 import java.util.List;

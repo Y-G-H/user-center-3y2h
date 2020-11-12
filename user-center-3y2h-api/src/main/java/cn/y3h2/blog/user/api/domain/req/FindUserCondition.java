@@ -2,6 +2,8 @@ package cn.y3h2.blog.user.api.domain.req;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @ClassName FindUserCondition
  * @Author kongming
@@ -9,8 +11,9 @@ import lombok.Data;
  * @Description 查询用户条件
  */
 @Data
-public class FindUserCondition {
+public class FindUserCondition implements Serializable {
 
+    private static final long serialVersionUID = -8498598226943327574L;
     /**
      * id
      */

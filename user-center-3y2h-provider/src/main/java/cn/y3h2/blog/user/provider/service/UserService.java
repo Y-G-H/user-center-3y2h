@@ -2,15 +2,17 @@ package cn.y3h2.blog.user.provider.service;
 
 import cn.y3h2.blog.user.api.UserFacade;
 import cn.y3h2.blog.user.api.domain.req.FindUserCondition;
-import cn.y3h2.blog.user.api.domain.rsp.UserInfoDTO;
+import cn.y3h2.blog.user.common.dto.UserInfoDTO;
 import cn.y3h2.blog.user.common.model.Response;
 import cn.y3h2.blog.user.core.domain.UsrUserDO;
 import cn.y3h2.blog.user.core.manager.UsrUserManager;
+import cn.y3h2.blog.user.provider.helper.ConverterHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName UserService
@@ -26,8 +28,9 @@ public class UserService implements UserFacade {
     private UsrUserManager usrUserManager;
 
     public Response<List<UserInfoDTO>> loadUser(FindUserCondition condition) {
-        List<UsrUserDO> load = usrUserManager.load(condition);
-        return Response.ok(load);
+        List<UsrUserDO> UsrUserDOs = usrUserManager.load(condition);
+        List<UserInfoDTO> UserInfoDTOs = UsrUserDOs.stream().map(ConverterHelper::toUserInfoDTO).collect(Collectors.toList());
+        return Response.ok(UserInfoDTOs);
     }
 
 }
