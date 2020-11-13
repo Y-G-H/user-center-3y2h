@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.y3h2.blog.user.core.dao.UsrPermissionMapper">
+
+    <resultMap id="BaseResultMap" type="cn.y3h2.blog.user.core.domain.UsrPermissionDO">
+        <result property="id" jdbcType="BIGINT" column="id"/>
+        <result property="code" jdbcType="VARCHAR" column="code"/>
+        <result property="name" jdbcType="VARCHAR" column="name"/>
+        <result property="gmtCreate" jdbcType="DATETIME" column="gmt_create"/>
+        <result property="gmtModify" jdbcType="DATETIME" column="gmt_modify"/>
+        <result property="status" jdbcType="INT" column="status"/>
+    </resultMap>
+
+    <sql id="BaseColumnList">
+        up.id,
+        up.code,
+        up.name,
+        up.gmt_create,
+        up.gmt_modify,
+        up.status
+    </sql>
+
+    <select id="loadAll" resultMap="BaseResultMap">
+        select <include refid="BaseColumnList" />
+        from usr_permission up
+    </select>
+
+    <select id="loadByRole" resultMap="BaseResultMap"
+            parameterType="cn.y3h2.blog.user.api.domain.req.FindPermissionCondition">
+        select <include refid="BaseColumnList" />
+        from usr_permission up, usr_role_permission uop
+        where up.code = uop.permission_code
+        and uop.role_code = #{roleCode}
+    </select>
+
+</mapper>

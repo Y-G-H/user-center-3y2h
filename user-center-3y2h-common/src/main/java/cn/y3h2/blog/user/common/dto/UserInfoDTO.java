@@ -39,4 +39,14 @@ public class UserInfoDTO implements Serializable {
      */
     private Integer state;
 
+    /**
+     * 角色编码
+     */
+    private String roleCode;
+
+    /**
+     * 用户角色
+     */
+    private RoleInfoDTO role;
+
 }

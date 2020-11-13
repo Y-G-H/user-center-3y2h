@@ -27,6 +27,12 @@ public class UsrUserDO extends BaseDO {
     private String realname;
 
     /**
+     * 角色编码
+     */
+    @TableField("role_code")
+    private String roleCode;
+
+    /**
      * 性别
      */
     @TableField("gender")
