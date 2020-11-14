@@ -9,6 +9,8 @@ import cn.y3h2.blog.user.common.dto.PermissionInfoDTO;
 import cn.y3h2.blog.user.common.dto.RoleInfoDTO;
 import cn.y3h2.blog.user.common.dto.UserInfoDTO;
 import cn.y3h2.blog.user.common.enums.MessageEnums;
+import cn.y3h2.blog.user.common.enums.RoleEnum;
+import cn.y3h2.blog.user.common.enums.UserStateEnum;
 import cn.y3h2.blog.user.common.excaption.ExceptionFactory;
 import cn.y3h2.blog.user.common.model.Response;
 import cn.y3h2.blog.user.core.domain.UsrPermissionDO;
@@ -116,6 +118,8 @@ public class UserService implements UserFacade {
             throw ExceptionFactory.getBusinessException(MessageEnums.PARAM_ERROR, "用户名为空");
         if (StringUtils.isBlank(userInfoDTO.getPassword()))
             throw ExceptionFactory.getBusinessException(MessageEnums.PARAM_ERROR, "用户密码为空");
+        if (StringUtils.isBlank(userInfoDTO.getRoleCode())) userInfoDTO.setRoleCode(RoleEnum.NORMAL.getValue());
+        if (Objects.isNull(userInfoDTO.getState())) userInfoDTO.setState(UserStateEnum.NORMAL.getCode());
 
         usrUserManager.add(userInfoDTO);
         return Response.ok(true);

@@ -7,9 +7,9 @@
         <result property="id" jdbcType="BIGINT" column="id"/>
         <result property="code" jdbcType="VARCHAR" column="code"/>
         <result property="name" jdbcType="VARCHAR" column="name"/>
-        <result property="gmtCreate" jdbcType="DATETIME" column="gmt_create"/>
-        <result property="gmtModify" jdbcType="DATETIME" column="gmt_modify"/>
-        <result property="status" jdbcType="INT" column="status"/>
+        <result property="gmtCreate" jdbcType="DATE" column="gmt_create"/>
+        <result property="gmtModify" jdbcType="DATE" column="gmt_modify"/>
+        <result property="status" jdbcType="INTEGER" column="status"/>
     </resultMap>
 
     <sql id="BaseColumnList">

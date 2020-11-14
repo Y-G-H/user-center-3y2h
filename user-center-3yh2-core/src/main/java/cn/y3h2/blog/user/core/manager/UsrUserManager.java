@@ -68,8 +68,8 @@ public class UsrUserManager {
             userDO.setGender(userInfoDTO.getGender());
             userDO.setFreeze2Date(userInfoDTO.getFreeze2Date());
             userDO.setMobile(userInfoDTO.getMobile());
-            userDO.setRoleCode(RoleEnum.NORMAL.getValue());
-            userDO.setState(UserStateEnum.NORMAL.getCode());
+            userDO.setRoleCode(userInfoDTO.getRoleCode());
+            userDO.setState(userInfoDTO.getState());
             userDO.setAvatar(userInfoDTO.getAvatar());
 
             usrUserMapper.insert(userDO);
