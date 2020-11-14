@@ -1,6 +1,6 @@
 package cn.y3h2.blog.user.api.domain.req;
 
-import cn.y3h2.blog.user.common.model.Page;
+import cn.y3h2.blog.user.common.model.PageLimitParam;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @Description 查询用户条件
  */
 @Data
-public class FindUserCondition extends Page implements Serializable {
+public class FindUserCondition extends PageLimitParam implements Serializable {
 
     private static final long serialVersionUID = -8498598226943327574L;
     /**

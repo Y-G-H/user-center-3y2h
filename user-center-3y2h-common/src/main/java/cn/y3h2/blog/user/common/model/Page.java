@@ -1,31 +1,70 @@
 package cn.y3h2.blog.user.common.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
-* @ClassName Page
-* @Author kongming
-* @Date 2020/11/14 5:39 下午
-* @Description 分页类
-*/
+ * 分页分装类
+ * @param <T>
+ */
 @Data
-public class Page<T> {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Page<T> implements Serializable {
+  /**
+   * 当前页记录
+   */
+  private List<T> data;
+  /**
+   * 记录总数
+   */
+  private Long total;
+  /**
+   * 页记录数
+   */
+  private Integer pageSize;
+  /**
+   * 页码
+   */
+  private Integer pageNo;
 
-    /**
-     * 页长, 不填默认为10
-     */
-    private Integer pageSize;
+  public Page(List<T> data, Long total) {
+    this.data = data;
+    this.total = total;
+  }
 
-    /**
-     * 页码, 不填默认为1
-     */
-    private Integer pageNo;
+  public void init(){
+    if(pageNo == null){
+      this.pageNo = 1;
+    }
+    if(pageSize == null){
+      this.setPageSize(10);
+    }
+  }
 
-    /**
-     * 页数据
-     */
-    private List<T> data;
 
+  public static <T> Page emptyPage(){
+    Page<T> emptyPage= new Page<>();
+    emptyPage.setTotal(0L);
+    emptyPage.setData(new ArrayList<>(0));
+    return emptyPage;
+  }
+  public static <T> Page emptyPage(Long total){
+    Page<T> emptyPage= new Page<>();
+    emptyPage.setTotal(total);
+    emptyPage.setData(new ArrayList<>(0));
+    return emptyPage;
+  }
+
+  public static <T> Page emptyPage(Integer pageSize,Integer pageNum){
+    Page<T> emptyPage= emptyPage();
+    emptyPage.setPageSize(pageSize);
+    emptyPage.setPageNo(pageNum);
+    return emptyPage;
+  }
 }
