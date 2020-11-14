@@ -8,6 +8,8 @@ import cn.y3h2.blog.user.api.domain.req.FindUserPart;
 import cn.y3h2.blog.user.common.dto.PermissionInfoDTO;
 import cn.y3h2.blog.user.common.dto.RoleInfoDTO;
 import cn.y3h2.blog.user.common.dto.UserInfoDTO;
+import cn.y3h2.blog.user.common.enums.MessageEnums;
+import cn.y3h2.blog.user.common.excaption.ExceptionFactory;
 import cn.y3h2.blog.user.common.model.Response;
 import cn.y3h2.blog.user.core.domain.UsrPermissionDO;
 import cn.y3h2.blog.user.core.domain.UsrRoleDO;
@@ -16,11 +18,14 @@ import cn.y3h2.blog.user.core.manager.UsrPermissionManager;
 import cn.y3h2.blog.user.core.manager.UsrRoleManager;
 import cn.y3h2.blog.user.core.manager.UsrUserManager;
 import cn.y3h2.blog.user.provider.helper.ConverterHelper;
+import com.alibaba.dubbo.common.utils.StringUtils;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -42,10 +47,44 @@ public class UserService implements UserFacade {
     @Autowired
     private UsrRoleManager usrRoleManager;
 
-    public Response<List<UserInfoDTO>> loadUser(FindUserCondition condition, FindUserPart part) {
+    public Response<UserInfoDTO> loadUserByUsername(FindUserCondition condition, FindUserPart part) {
+        if (Objects.isNull(condition.getUsername()))
+            throw ExceptionFactory.getBusinessException(MessageEnums.PARAM_ERROR, "用户名为空");
+
         Boolean needPermission = part.getNeedPermission();
         Boolean needRole = part.getNeedRole();
-        List<UsrUserDO> UsrUserDOs = usrUserManager.load(condition);
+        UsrUserDO usrUserDO = usrUserManager.loadByUsername(condition.getUsername());
+
+        // 根据part包装返回结果
+        UserInfoDTO userInfo = ConverterHelper.toUserInfoDTO(usrUserDO);
+        RoleInfoDTO roleInfoDTO = null;
+        List<PermissionInfoDTO> permissions = null;
+        // 是否需要权限数据
+        if (needPermission) {
+            FindPermissionCondition permissionCondition = new FindPermissionCondition();
+            permissionCondition.setRoleCode(userInfo.getRoleCode());
+            permissions = usrPermissionManager.loadPermissionsByRole(permissionCondition)
+                    .stream().map(ConverterHelper::toPermissionInfoDTO).collect(Collectors.toList());
+        }
+        // 是否需要角色数据
+        if (needPermission || needRole) {
+            FindRoleCondition roleCondition = new FindRoleCondition();
+            roleCondition.setCode(userInfo.getRoleCode());
+            UsrRoleDO role = usrRoleManager.load(roleCondition);
+            ConverterHelper.toRoleInfoDTO(role, permissions);
+        }
+        userInfo.setRole(roleInfoDTO);
+        return Response.ok(userInfo);
+    }
+
+    public Response<IPage<UserInfoDTO>> pageUser(FindUserCondition condition, FindUserPart part) {
+        if (Objects.isNull(condition.getPageNo())) condition.setPageNo(1);
+        if (Objects.isNull(condition.getPageSize())) condition.setPageSize(10);
+
+        Boolean needPermission = part.getNeedPermission();
+        Boolean needRole = part.getNeedRole();
+        IPage<UsrUserDO> pageData = usrUserManager.loadPage(condition);
+        List<UsrUserDO> UsrUserDOs = pageData.getRecords();
         List<UserInfoDTO> userInfoDTOs = UsrUserDOs.stream().map(ConverterHelper::toUserInfoDTO).collect(Collectors.toList());
         for (UserInfoDTO userInfo : userInfoDTOs) {
             RoleInfoDTO roleInfoDTO = null;
@@ -68,7 +107,18 @@ public class UserService implements UserFacade {
             userInfo.setRole(roleInfoDTO);
         }
 
-        return Response.ok(userInfoDTOs);
+        return Response.ok(pageData);
+    }
+
+
+    public Response<Boolean> addUser(UserInfoDTO userInfoDTO) {
+        if (StringUtils.isBlank(userInfoDTO.getUsername()))
+            throw ExceptionFactory.getBusinessException(MessageEnums.PARAM_ERROR, "用户名为空");
+        if (StringUtils.isBlank(userInfoDTO.getPassword()))
+            throw ExceptionFactory.getBusinessException(MessageEnums.PARAM_ERROR, "用户密码为空");
+
+        usrUserManager.add(userInfoDTO);
+        return Response.ok(true);
     }
 
 }

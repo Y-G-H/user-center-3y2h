@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @ClassName UsrUserDO
  * @Author kongming
@@ -25,6 +27,25 @@ public class UsrUserDO extends BaseDO {
      */
     @TableField("realname")
     private String realname;
+
+    /**
+     * 手机号
+     */
+    @TableField("mobile")
+    private String mobile;
+
+
+    /**
+     * 头像
+     */
+    @TableField("avatar")
+    private String avatar;
+
+    /**
+     * 解冻时间
+     */
+    @TableField("freeze_to_date")
+    private Date freeze2Date;
 
     /**
      * 角色编码

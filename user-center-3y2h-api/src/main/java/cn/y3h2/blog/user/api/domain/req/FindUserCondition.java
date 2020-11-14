@@ -1,5 +1,6 @@
 package cn.y3h2.blog.user.api.domain.req;
 
+import cn.y3h2.blog.user.common.model.Page;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.io.Serializable;
  * @Description 查询用户条件
  */
 @Data
-public class FindUserCondition implements Serializable {
+public class FindUserCondition extends Page implements Serializable {
 
     private static final long serialVersionUID = -8498598226943327574L;
     /**
@@ -38,6 +39,21 @@ public class FindUserCondition implements Serializable {
      * 账户状态
      */
     private Integer state;
+
+    /**
+     * 解冻日期
+     */
+    private Data freeze2Date;
+
+    /**
+     * 手机号
+     */
+    private String mobile;
+
+    /**
+     * 角色编码
+     */
+    private String roleCode;
 
 
 }

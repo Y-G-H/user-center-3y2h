@@ -3,6 +3,7 @@ package cn.y3h2.blog.user.common.dto;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @ClassName UserInfoDTO
@@ -33,6 +34,26 @@ public class UserInfoDTO implements Serializable {
      * 登录密码
      */
     private String password;
+
+    /**
+     * 手机号
+     */
+    private String mobile;
+
+    /**
+     * 头像
+     */
+    private String avatar;
+
+    /**
+     * 解冻至时间
+     */
+    private Date freeze2Date;
+
+    /**
+     * 性别
+     */
+    private Integer gender;
 
     /**
      * 账户状态

@@ -20,11 +20,7 @@ public class UnitTest {
 
     @Test
     public void test() {
-        FindUserCondition findUserCondition = new FindUserCondition();
-        findUserCondition.setRealname("颜港辉");
 
-        List<UsrUserDO> load = usrUserManager.load(findUserCondition);
-        System.out.println(load);
     }
 
 }
