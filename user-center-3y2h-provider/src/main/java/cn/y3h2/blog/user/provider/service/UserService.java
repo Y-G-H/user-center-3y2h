@@ -52,31 +52,42 @@ public class UserService implements UserFacade {
     public Response<UserInfoDTO> loadUserByUsername(FindUserCondition condition, FindUserPart part) {
         if (Objects.isNull(condition.getUsername()))
             throw ExceptionFactory.getBusinessException(MessageEnums.PARAM_ERROR, "用户名为空");
+        log.info("UserService#loadUserByUsername find user condition is [{}], part is [{}]", condition, part);
 
         Boolean needPermission = part.getNeedPermission();
         Boolean needRole = part.getNeedRole();
-        UsrUserDO usrUserDO = usrUserManager.loadByUsername(condition.getUsername());
 
-        // 根据part包装返回结果
-        UserInfoDTO userInfo = ConverterHelper.toUserInfoDTO(usrUserDO);
-        RoleInfoDTO roleInfoDTO = null;
-        List<PermissionInfoDTO> permissions = null;
-        // 是否需要权限数据
-        if (needPermission) {
-            FindPermissionCondition permissionCondition = new FindPermissionCondition();
-            permissionCondition.setRoleCode(userInfo.getRoleCode());
-            permissions = usrPermissionManager.loadPermissionsByRole(permissionCondition)
-                    .stream().map(ConverterHelper::toPermissionInfoDTO).collect(Collectors.toList());
+        try {
+            UsrUserDO usrUserDO = usrUserManager.loadByUsername(condition.getUsername());
+            if (Objects.isNull(usrUserDO)) {
+                log.warn("UserService#loadUserByUsername user not found, username is [{}]", condition.getUsername());
+                return Response.ok(null);
+            }
+
+            // 根据part包装返回结果
+            UserInfoDTO userInfo = ConverterHelper.toUserInfoDTO(usrUserDO);
+            RoleInfoDTO roleInfoDTO = null;
+            List<PermissionInfoDTO> permissions = null;
+            // 是否需要权限数据
+            if (needPermission) {
+                FindPermissionCondition permissionCondition = new FindPermissionCondition();
+                permissionCondition.setRoleCode(userInfo.getRoleCode());
+                permissions = usrPermissionManager.loadPermissionsByRole(permissionCondition)
+                        .stream().map(ConverterHelper::toPermissionInfoDTO).collect(Collectors.toList());
+            }
+            // 是否需要角色数据
+            if (needPermission || needRole) {
+                FindRoleCondition roleCondition = new FindRoleCondition();
+                roleCondition.setCode(userInfo.getRoleCode());
+                UsrRoleDO role = usrRoleManager.load(roleCondition);
+                ConverterHelper.toRoleInfoDTO(role, permissions);
+            }
+            userInfo.setRole(roleInfoDTO);
+            return Response.ok(userInfo);
+        } catch (Exception e) {
+            log.error("UserService#loadUserByUsername load user error: [{}]", e);
+            return Response.fail(MessageEnums.SYS_ERROR.getCode(), MessageEnums.SYS_ERROR.getMsg());
         }
-        // 是否需要角色数据
-        if (needPermission || needRole) {
-            FindRoleCondition roleCondition = new FindRoleCondition();
-            roleCondition.setCode(userInfo.getRoleCode());
-            UsrRoleDO role = usrRoleManager.load(roleCondition);
-            ConverterHelper.toRoleInfoDTO(role, permissions);
-        }
-        userInfo.setRole(roleInfoDTO);
-        return Response.ok(userInfo);
     }
 
     public Response<IPage<UserInfoDTO>> pageUser(FindUserCondition condition, FindUserPart part) {
@@ -121,6 +132,7 @@ public class UserService implements UserFacade {
         if (StringUtils.isBlank(userInfoDTO.getRoleCode())) userInfoDTO.setRoleCode(RoleEnum.NORMAL.getValue());
         if (Objects.isNull(userInfoDTO.getState())) userInfoDTO.setState(UserStateEnum.NORMAL.getCode());
 
+        log.info("UserService#addUser add user params is [{}]", userInfoDTO);
         usrUserManager.add(userInfoDTO);
         return Response.ok(true);
     }

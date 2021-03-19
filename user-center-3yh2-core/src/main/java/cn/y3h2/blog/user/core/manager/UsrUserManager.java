@@ -11,6 +11,7 @@ import cn.y3h2.blog.user.core.domain.UsrUserDO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ import java.util.Objects;
  * @Date 2020/11/11 11:17 下午
  * @Description 用户manager
  */
+@Slf4j
 @Component
 public class UsrUserManager {
 
@@ -75,6 +77,7 @@ public class UsrUserManager {
             usrUserMapper.insert(userDO);
             return true;
         } catch (Exception e) {
+            log.warn("UsrUserManager#add add user error: [{}]", e);
             throw ExceptionFactory.getSqlException(MessageEnums.SQL_ERROR, "添加用户信息错误");
         }
     }
