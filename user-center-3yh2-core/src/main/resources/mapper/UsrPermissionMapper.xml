@@ -7,6 +7,11 @@
         <result property="id" jdbcType="BIGINT" column="id"/>
         <result property="code" jdbcType="VARCHAR" column="code"/>
         <result property="name" jdbcType="VARCHAR" column="name"/>
+        <result property="type" jdbcType="VARCHAR" column="type"/>
+        <result property="parentId" jdbcType="VARCHAR" column="parent_id"/>
+        <result property="url" jdbcType="VARCHAR" column="url"/>
+        <result property="icon" jdbcType="VARCHAR" column="icon"/>
+        <result property="sortNum" jdbcType="VARCHAR" column="sort_num"/>
         <result property="gmtCreate" jdbcType="DATE" column="gmt_create"/>
         <result property="gmtModify" jdbcType="DATE" column="gmt_modify"/>
         <result property="status" jdbcType="INTEGER" column="status"/>
@@ -15,7 +20,11 @@
     <sql id="BaseColumnList">
         up.id,
         up.code,
-        up.name,
+        up.type,
+        up.parent_id,
+        up.url,
+        up.icon,
+        up.sort_num,
         up.gmt_create,
         up.gmt_modify,
         up.status

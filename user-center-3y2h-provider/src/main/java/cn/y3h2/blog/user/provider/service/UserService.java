@@ -80,7 +80,7 @@ public class UserService implements UserFacade {
                 FindRoleCondition roleCondition = new FindRoleCondition();
                 roleCondition.setCode(userInfo.getRoleCode());
                 UsrRoleDO role = usrRoleManager.load(roleCondition);
-                ConverterHelper.toRoleInfoDTO(role, permissions);
+                roleInfoDTO = ConverterHelper.toRoleInfoDTO(role, permissions);
             }
             userInfo.setRole(roleInfoDTO);
             return Response.ok(userInfo);

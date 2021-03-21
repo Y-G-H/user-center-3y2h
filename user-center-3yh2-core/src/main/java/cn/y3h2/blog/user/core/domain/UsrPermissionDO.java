@@ -26,4 +26,34 @@ public class UsrPermissionDO extends BaseDO {
     @TableField("name")
     private String name;
 
+    /**
+     * 菜单类型
+     */
+    @TableField("type")
+    private Integer type;
+
+    /**
+     * 父级菜单，为空则为顶级
+     */
+    @TableField("parent_id")
+    private Long parentId;
+
+    /**
+     * 菜单url
+     */
+    @TableField("url")
+    private String url;
+
+    /**
+     * 图标
+     */
+    @TableField("icon")
+    private String icon;
+
+    /**
+     * 菜单顺序
+     */
+    @TableField("sort_num")
+    private Integer sortNum;
+
 }

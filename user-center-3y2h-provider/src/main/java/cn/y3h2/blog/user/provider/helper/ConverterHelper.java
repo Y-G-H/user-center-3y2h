@@ -7,6 +7,7 @@ import cn.y3h2.blog.user.common.dto.UserInfoDTO;
 import cn.y3h2.blog.user.core.domain.UsrPermissionDO;
 import cn.y3h2.blog.user.core.domain.UsrRoleDO;
 import cn.y3h2.blog.user.core.domain.UsrUserDO;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
@@ -20,28 +21,20 @@ public class ConverterHelper {
 
     public static UserInfoDTO toUserInfoDTO(UsrUserDO usrUserDO) {
         UserInfoDTO userInfoDTO = new UserInfoDTO();
-        userInfoDTO.setId(usrUserDO.getId());
-        userInfoDTO.setPassword(usrUserDO.getPassword());
-        userInfoDTO.setRealname(usrUserDO.getRealname());
-        userInfoDTO.setRoleCode(usrUserDO.getRoleCode());
-        userInfoDTO.setState(usrUserDO.getState());
-        userInfoDTO.setUsername(usrUserDO.getUsername());
+        BeanUtils.copyProperties(usrUserDO, userInfoDTO);
         return userInfoDTO;
     }
 
     public static RoleInfoDTO toRoleInfoDTO(UsrRoleDO usrRoleDO, List<PermissionInfoDTO> permissions) {
         RoleInfoDTO roleInfoDTO = new RoleInfoDTO();
-        roleInfoDTO.setCode(usrRoleDO.getCode());
-        roleInfoDTO.setName(usrRoleDO.getName());
-        roleInfoDTO.setReason(usrRoleDO.getReason());
+        BeanUtils.copyProperties(usrRoleDO, roleInfoDTO);
         roleInfoDTO.setPermissions(permissions);
         return roleInfoDTO;
     }
 
     public static PermissionInfoDTO toPermissionInfoDTO(UsrPermissionDO usrPermissionDO) {
         PermissionInfoDTO permissionInfoDTO = new PermissionInfoDTO();
-        permissionInfoDTO.setCode(usrPermissionDO.getCode());
-        permissionInfoDTO.setName(usrPermissionDO.getName());
+        BeanUtils.copyProperties(usrPermissionDO, permissionInfoDTO);
         return permissionInfoDTO;
     }
 
